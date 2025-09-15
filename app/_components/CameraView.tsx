@@ -134,11 +134,12 @@ export function CameraView({ language, enabled, showGlasses, showStars }: Camera
     startCamera()
 
     return () => {
-      if (stream) {
+      // Cleanup function - ne dépend que de enabled
+      if (enabled && stream) {
         stream.getTracks().forEach(track => track.stop())
       }
     }
-  }, [enabled, language, stream])
+  }, [enabled, language]) // Supprimé stream des dépendances
 
   useEffect(() => {
     if (!enabled || !videoRef.current || !canvasRef.current) return

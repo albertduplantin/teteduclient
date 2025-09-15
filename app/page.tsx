@@ -48,16 +48,16 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+      <div className="container mx-auto px-4 py-4 max-w-md mx-auto">
+        {/* Header - Mobile optimized */}
+        <header className="text-center mb-6 sticky top-0 bg-white/80 backdrop-blur-sm z-10 py-4 -mx-4 px-4">
+          <h1 className="text-2xl font-bold text-gray-800 mb-1">
             {language === 'fr' ? 'tete-du-client' : 'head-of-client'}
           </h1>
-          <p className="text-lg text-gray-600 mb-4">
+          <p className="text-sm text-gray-600 mb-3">
             {language === 'fr' 
-              ? 'Application parodique dénonçant les biais d\'évaluation'
-              : 'Parody application denouncing evaluation biases'
+              ? 'Notation parodique basée sur l\'apparence'
+              : 'Parody appearance-based scoring'
             }
           </p>
           <LanguageSwitcher 
@@ -66,49 +66,47 @@ export default function HomePage() {
           />
         </header>
 
-        {/* Disclaimer */}
+        {/* Disclaimer - Mobile discrete */}
         <Disclaimer language={language} />
 
-        {/* Main Content */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          {/* Left Column - Camera and Settings */}
-          <div className="space-y-6">
-            <CameraView
-              language={language}
-              enabled={cameraEnabled}
-              showGlasses={glassesEnabled}
-              showStars={starsEnabled}
-            />
-            
-            <SettingsBar
-              language={language}
-              cameraEnabled={cameraEnabled}
-              glassesEnabled={glassesEnabled}
-              starsEnabled={starsEnabled}
-              soundEnabled={soundEnabled}
-              vibrationEnabled={vibrationEnabled}
-              onCameraToggle={setCameraEnabled}
-              onGlassesToggle={setGlassesEnabled}
-              onStarsToggle={setStarsEnabled}
-              onSoundToggle={setSoundEnabled}
-              onVibrationToggle={setVibrationEnabled}
-            />
-          </div>
+        {/* Mobile-first vertical layout */}
+        <div className="space-y-6">
+          {/* Camera View - Full width on mobile */}
+          <CameraView
+            language={language}
+            enabled={cameraEnabled}
+            showGlasses={glassesEnabled}
+            showStars={starsEnabled}
+          />
+          
+          {/* Score Card - Prominent on mobile */}
+          <ScoreCard
+            language={language}
+            biases={biases}
+            soundEnabled={soundEnabled}
+            vibrationEnabled={vibrationEnabled}
+          />
 
-          {/* Right Column - Bias Controls and Score */}
-          <div className="space-y-6">
-            <BiasSliders
-              language={language}
-              onBiasChange={setBiases}
-            />
-            
-            <ScoreCard
-              language={language}
-              biases={biases}
-              soundEnabled={soundEnabled}
-              vibrationEnabled={vibrationEnabled}
-            />
-          </div>
+          {/* Bias Sliders - Touch-friendly */}
+          <BiasSliders
+            language={language}
+            onBiasChange={setBiases}
+          />
+          
+          {/* Settings - Collapsible on mobile */}
+          <SettingsBar
+            language={language}
+            cameraEnabled={cameraEnabled}
+            glassesEnabled={glassesEnabled}
+            starsEnabled={starsEnabled}
+            soundEnabled={soundEnabled}
+            vibrationEnabled={vibrationEnabled}
+            onCameraToggle={setCameraEnabled}
+            onGlassesToggle={setGlassesEnabled}
+            onStarsToggle={setStarsEnabled}
+            onSoundToggle={setSoundEnabled}
+            onVibrationToggle={setVibrationEnabled}
+          />
         </div>
 
         {/* Bias Cards Section */}

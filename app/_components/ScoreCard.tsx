@@ -50,7 +50,7 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
     <Card className="score-card">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">
-          {language === 'fr' ? 'Délibération' : 'Deliberation'}
+          {language === 'fr' ? 'Note à la tête du client' : 'Head-of-client Score'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -62,7 +62,7 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
               className="w-full"
               aria-describedby="deliberate-description"
             >
-              {t.deliberate}
+              {language === 'fr' ? 'Noter' : 'Score'}
             </Button>
             <p id="deliberate-description" className="sr-only">
               {language === 'fr' 
@@ -106,7 +106,7 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
                   : 'Generate a new score'
                 }
               >
-                {t.redeliberate}
+                {language === 'fr' ? 'Re-noter' : 'Re-score'}
               </Button>
               <Button 
                 onClick={() => {/* TODO: Afficher les biais */}}
