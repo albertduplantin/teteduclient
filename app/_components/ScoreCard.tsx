@@ -7,6 +7,7 @@ import { useI18n, type Language } from '@/app/_lib/i18n'
 import { computeScore } from '@/app/_lib/rng'
 import { useAudio } from '@/app/_lib/audio'
 import { useVibration } from '@/app/_lib/vibration'
+import { phraseCache } from '@/app/_lib/cache'
 
 interface ScoreCardProps {
   language: Language
@@ -24,20 +25,29 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
 
   const handleDeliberate = async () => {
     setIsAnimating(true)
-    
-    // Génère le score avec les phrases internationalisées
-    const result = computeScore(biases, t.absurdPhrases)
-    setScore({ score: result.score, phrase: result.phrase })
-    
+
+    // Vérifie d'abord le cache
+    const cachedResult = phraseCache.getScore(biases)
+    if (cachedResult) {
+      setScore(cachedResult)
+    } else {
+      // Génère le score avec les phrases internationalisées
+      const result = computeScore(biases, t.absurdPhrases)
+      setScore({ score: result.score, phrase: result.phrase })
+      
+      // Met en cache le résultat
+      phraseCache.setScore(biases, { score: result.score, phrase: result.phrase })
+    }
+
     // Effets sonores et vibration
     if (soundEnabled) {
       await playTaDa()
     }
-    
+
     if (vibrationEnabled) {
       vibrateScore()
     }
-    
+
     // Arrête l'animation après 600ms
     setTimeout(() => setIsAnimating(false), 600)
   }

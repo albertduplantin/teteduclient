@@ -1,14 +1,21 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 import { Disclaimer } from './_components/Disclaimer'
 import { LanguageSwitcher } from './_components/LanguageSwitcher'
 import { CameraView } from './_components/CameraView'
 import { BiasSliders } from './_components/BiasSliders'
 import { ScoreCard } from './_components/ScoreCard'
-import { BiasCards } from './_components/BiasCards'
 import { SettingsBar } from './_components/SettingsBar'
 import { useI18n, type Language } from './_lib/i18n'
+import { useKonami } from './_lib/konami'
+import { useAudio } from './_lib/audio'
+import { useVibration } from './_lib/vibration'
+
+// Lazy loading des composants non critiques
+const BiasCards = lazy(() => import('./_components/BiasCards').then(module => ({ default: module.BiasCards })))
+const SeriousModal = lazy(() => import('./_components/SeriousModal').then(module => ({ default: module.SeriousModal })))
+const PWAInstallButton = lazy(() => import('./_components/PWAInstallButton').then(module => ({ default: module.PWAInstallButton })))
 
 export default function HomePage() {
   const [language, setLanguage] = useState<Language>('fr')
@@ -18,14 +25,31 @@ export default function HomePage() {
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [vibrationEnabled, setVibrationEnabled] = useState(true)
   const [showBiasCards, setShowBiasCards] = useState(false)
+  const [showSeriousModal, setShowSeriousModal] = useState(false)
   const [biases, setBiases] = useState({ halo: 50, herd: 50, lucky: 50 })
   const [isMounted, setIsMounted] = useState(false)
 
   const t = useI18n(language)
+  const { setSoundEnabled: setAudioEnabled } = useAudio()
+  const { setVibrationEnabled: setVibEnabled } = useVibration()
+
+  // Easter egg Konami
+  useKonami(() => {
+    setShowSeriousModal(true)
+  })
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  // Synchronise les paramètres audio/vibration
+  useEffect(() => {
+    setAudioEnabled(soundEnabled)
+  }, [soundEnabled, setAudioEnabled])
+
+  useEffect(() => {
+    setVibEnabled(vibrationEnabled)
+  }, [vibrationEnabled, setVibEnabled])
 
   // Désactive les filtres si la caméra est désactivée
   useEffect(() => {
@@ -109,10 +133,17 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Bias Cards Section */}
+        {/* Bias Cards Section - Lazy loaded */}
         {showBiasCards && (
           <div className="mt-12">
-            <BiasCards language={language} />
+            <Suspense fallback={
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Chargement des cartes...</p>
+              </div>
+            }>
+              <BiasCards language={language} />
+            </Suspense>
           </div>
         )}
 
@@ -150,6 +181,16 @@ export default function HomePage() {
           </p>
         </footer>
       </div>
+
+      {/* Lazy loaded components */}
+      <Suspense fallback={null}>
+        <PWAInstallButton language={language} />
+        <SeriousModal
+          language={language}
+          open={showSeriousModal}
+          onOpenChange={setShowSeriousModal}
+        />
+      </Suspense>
     </div>
   )
 }

@@ -65,7 +65,21 @@ export const i18n: Record<Language, I18nContent> = {
       "Cheveux en bataille +2, lunettes de travers –1 : conclusion… parfaitement banal !",
       "T-shirt froissé +1, posture décontractée –2 : verdict… étonnamment prévisible !",
       "Chaussettes dépareillées +2, air mystérieux –1 : résultat… brillamment terne !",
-      "Café renversé +1, sourire gêné –2 : conclusion… remarquablement ordinaire !"
+      "Café renversé +1, sourire gêné –2 : conclusion… remarquablement ordinaire !",
+      "Costard 3 pièces +5, chaussettes Batman –4 : évaluation… super-héros raté !",
+      "Barbe de 3 jours +2, cravate Hermès –3 : verdict… luxueusement négligé !",
+      "Lunettes de soleil +1, costume de plage –5 : résultat… professionnellement décalé !",
+      "Chapeau melon +3, baskets Nike –2 : conclusion… élégamment sportif !",
+      "Montre en toc +1, attitude de boss –4 : verdict… faussement important !",
+      "Bretelles colorées +2, chemise hawaïenne –3 : résultat… tropicalement formel !",
+      "Bague à l'auriculaire +1, air de mafioso –5 : conclusion… dangereusement kitsch !",
+      "Pochette assortie +2, chaussures croco –3 : verdict… reptilien chic !",
+      "Foulard en soie +3, jean troué –2 : résultat… déchiré élégant !",
+      "Boutons de manchette +1, t-shirt 'I ❤️ Paris' –4 : conclusion… parisien kitsch !",
+      "Cigare non allumé +2, costume Armani –3 : verdict… fumeur d'eau !",
+      "Boucle d'oreille +1, costume 3 pièces –2 : résultat… formellement rebelle !",
+      "Casquette à l'envers +3, costume cravate –4 : conclusion… hip-hop corporate !",
+      "Écharpe en cachemire +2, pantalon de jogging –3 : verdict… sportivement luxueux !"
     ],
     biasCards: {
       halo: {

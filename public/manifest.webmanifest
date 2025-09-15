@@ -1,7 +1,7 @@
 {
-  "name": "tete-du-client (Parody)",
-  "short_name": "tete-du-client",
-  "description": "Application parodique dénonçant les biais d'évaluation basés sur l'apparence",
+  "name": "Note à la tête du client",
+  "short_name": "Tête Client",
+  "description": "Application parodique de notation basée sur l'apparence - Mode mobile optimisé",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -34,9 +34,9 @@
   ],
   "shortcuts": [
     {
-      "name": "Délibérer",
-      "short_name": "Délibérer",
-      "description": "Générer un score parodique",
+      "name": "Noter rapidement",
+      "short_name": "Noter",
+      "description": "Générer une note instantanée",
       "url": "/",
       "icons": [
         {

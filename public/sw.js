@@ -1,5 +1,5 @@
 // Service Worker pour tete-du-client
-const CACHE_NAME = 'tete-du-client-v1'
+const CACHE_NAME = 'tete-du-client-v2'
 const OFFLINE_URL = '/offline.html'
 
 // Ressources à mettre en cache
