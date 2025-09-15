@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+// Crée les dossiers nécessaires
+const iconsDir = path.join(__dirname, '..', 'public', 'icons');
+if (!fs.existsSync(iconsDir)) {
+  fs.mkdirSync(iconsDir, { recursive: true });
+}
+
+// Contenu SVG de base pour les icônes
+const iconSvg = `<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#3B82F6"/>
+  
+  <!-- Head outline -->
+  <circle cx="256" cy="200" r="80" fill="white" stroke="#1F2937" stroke-width="4"/>
+  
+  <!-- Eyes -->
+  <circle cx="230" cy="180" r="12" fill="#1F2937"/>
+  <circle cx="282" cy="180" r="12" fill="#1F2937"/>
+  
+  <!-- Nose -->
+  <ellipse cx="256" cy="200" rx="8" ry="12" fill="#1F2937"/>
+  
+  <!-- Mouth -->
+  <path d="M 220 220 Q 256 240 292 220" stroke="#1F2937" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Glasses -->
+  <circle cx="230" cy="180" r="25" fill="none" stroke="#1F2937" stroke-width="3"/>
+  <circle cx="282" cy="180" r="25" fill="none" stroke="#1F2937" stroke-width="3"/>
+  <line x1="255" y1="180" x2="257" y2="180" stroke="#1F2937" stroke-width="3"/>
+  
+  <!-- Stars around head -->
+  <g fill="#FBBF24">
+    <path d="M 150 150 L 160 140 L 170 150 L 160 160 Z"/>
+    <path d="M 350 150 L 360 140 L 370 150 L 360 160 Z"/>
+    <path d="M 256 100 L 266 90 L 276 100 L 266 110 Z"/>
+  </g>
+  
+  <!-- Question mark -->
+  <text x="256" y="320" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">?</text>
+</svg>`;
+
+// Sauvegarde le SVG
+fs.writeFileSync(path.join(iconsDir, 'icon.svg'), iconSvg);
+
+// Crée des fichiers PNG factices (en production, utilisez un convertisseur SVG->PNG)
+const createPngPlaceholder = (size) => {
+  // En production, remplacez par une vraie conversion SVG->PNG
+  const pngContent = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
+  fs.writeFileSync(path.join(iconsDir, `icon-${size}x${size}.png`), pngContent);
+};
+
+// Génère les icônes de différentes tailles
+createPngPlaceholder(192);
+createPngPlaceholder(512);
+
+console.log('✅ Icônes générées dans public/icons/');
+console.log('📝 Note: En production, utilisez un convertisseur SVG->PNG pour les vraies icônes');
