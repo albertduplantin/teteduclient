@@ -25,8 +25,8 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
   const handleDeliberate = async () => {
     setIsAnimating(true)
     
-    // Génère le score
-    const result = computeScore(biases)
+    // Génère le score avec les phrases internationalisées
+    const result = computeScore(biases, t.absurdPhrases)
     setScore({ score: result.score, phrase: result.phrase })
     
     // Effets sonores et vibration
@@ -60,14 +60,25 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
               onClick={handleDeliberate}
               size="lg"
               className="w-full"
+              aria-describedby="deliberate-description"
             >
               {t.deliberate}
             </Button>
+            <p id="deliberate-description" className="sr-only">
+              {language === 'fr' 
+                ? 'Génère un score parodique basé sur les biais sélectionnés'
+                : 'Generates a parody score based on selected biases'
+              }
+            </p>
           </div>
         ) : (
           <div className="space-y-4">
             <div className={`text-center transition-all duration-300 ${isAnimating ? 'animate-ta-da' : ''}`}>
-              <div className="text-6xl font-bold text-blue-600 mb-2">
+              <div 
+                className="text-6xl font-bold text-blue-600 mb-2"
+                role="img"
+                aria-label={`${t.score}: ${score.score} ${t.outOf}`}
+              >
                 {score.score}
               </div>
               <div className="text-lg text-gray-600">
@@ -75,7 +86,11 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
               </div>
             </div>
             
-            <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+            <div 
+              className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200"
+              role="region"
+              aria-label={language === 'fr' ? 'Phrase absurde générée' : 'Generated absurd phrase'}
+            >
               <p className="text-sm font-medium text-yellow-800">
                 "{score.phrase}"
               </p>
@@ -86,6 +101,10 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
                 onClick={handleRedeliberate}
                 variant="outline"
                 className="flex-1"
+                aria-label={language === 'fr' 
+                  ? 'Générer un nouveau score'
+                  : 'Generate a new score'
+                }
               >
                 {t.redeliberate}
               </Button>
@@ -93,6 +112,10 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
                 onClick={() => {/* TODO: Afficher les biais */}}
                 variant="secondary"
                 className="flex-1"
+                aria-label={language === 'fr' 
+                  ? 'Afficher les cartes de biais cognitifs'
+                  : 'Show cognitive bias cards'
+                }
               >
                 {t.showBiases}
               </Button>

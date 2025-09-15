@@ -15,7 +15,8 @@ class RNG {
 
   // Génère un entier entre min et max (inclus)
   nextInt(min: number, max: number): number {
-    return Math.floor(this.next() * (max - min + 1)) + min
+    const range = max - min + 1
+    return Math.floor(this.next() * range) + min
   }
 }
 
@@ -24,7 +25,7 @@ export function computeScore(biases: {
   halo: number
   herd: number
   lucky: number
-}): { score: number; phrase: string; phrases: string[] } {
+}, phrases: string[] = []): { score: number; phrase: string; phrases: string[] } {
   // Crée un seed basé sur les valeurs des biais
   const seed = (biases.halo * 73856093) ^ 
                (biases.herd * 19349663) ^ 
@@ -35,8 +36,8 @@ export function computeScore(biases: {
   // Génère un score entre 0 et 20
   const score = rng.nextInt(0, 20)
   
-  // Phrases absurdes prédéfinies (seront remplacées par i18n)
-  const phrases = [
+  // Utilise les phrases fournies ou des phrases par défaut
+  const defaultPhrases = [
     "Stylo mâchouillé +3, sourire en coin –2 : verdict… époustou-flop !",
     "Cravate mal nouée +1, regard perdu –3 : résultat… médiocrement génial !",
     "Cheveux en bataille +2, lunettes de travers –1 : conclusion… parfaitement banal !",
@@ -44,12 +45,13 @@ export function computeScore(biases: {
     "Chaussettes dépareillées +2, air mystérieux –1 : résultat… brillamment terne !",
     "Café renversé +1, sourire gêné –2 : conclusion… remarquablement ordinaire !"
   ]
+  const phrasesToUse = phrases.length > 0 ? phrases : defaultPhrases
   
   // Sélectionne une phrase basée sur le score
-  const phraseIndex = rng.nextInt(0, phrases.length - 1)
-  const phrase = phrases[phraseIndex]
+  const phraseIndex = rng.nextInt(0, phrasesToUse.length - 1)
+  const phrase = phrasesToUse[phraseIndex] || phrasesToUse[0] // Fallback si l'index est invalide
   
-  return { score, phrase, phrases }
+  return { score, phrase, phrases: phrasesToUse }
 }
 
 // Fonction utilitaire pour générer des nombres aléatoires

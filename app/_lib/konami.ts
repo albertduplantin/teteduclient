@@ -1,3 +1,6 @@
+// Import React pour le hook
+import React from 'react'
+
 // Détecteur de code Konami pour l'easter egg
 export class KonamiDetector {
   private sequence: number[] = []
@@ -95,9 +98,6 @@ export class KonamiDetector {
     window.removeEventListener('keydown', this.handleKeyDown.bind(this))
   }
 }
-
-// Import React pour le hook
-import React from 'react'
 
 // Hook React pour utiliser le détecteur Konami
 export function useKonami(onSuccess: () => void) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Card } from './ui/card'
 import { useI18n, type Language } from '@/app/_lib/i18n'
 
@@ -17,6 +17,88 @@ export function CameraView({ language, enabled, showGlasses, showStars }: Camera
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [stream, setStream] = useState<MediaStream | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  const drawStar = useCallback((ctx: CanvasRenderingContext2D, x: number, y: number, size: number) => {
+    const spikes = 5
+    const outerRadius = size
+    const innerRadius = size * 0.4
+
+    ctx.beginPath()
+    for (let i = 0; i < spikes * 2; i++) {
+      const angle = (i * Math.PI) / spikes
+      const radius = i % 2 === 0 ? outerRadius : innerRadius
+      const px = x + Math.cos(angle) * radius
+      const py = y + Math.sin(angle) * radius
+      
+      if (i === 0) {
+        ctx.moveTo(px, py)
+      } else {
+        ctx.lineTo(px, py)
+      }
+    }
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+  }, [])
+
+  const drawGlasses = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+    const glassesSize = Math.min(width, height) * 0.3
+
+    ctx.strokeStyle = '#1f2937'
+    ctx.lineWidth = 4
+    ctx.fillStyle = 'rgba(31, 41, 55, 0.1)'
+
+    // Verres
+    ctx.beginPath()
+    ctx.arc(centerX - glassesSize * 0.3, centerY, glassesSize * 0.2, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.arc(centerX + glassesSize * 0.3, centerY, glassesSize * 0.2, 0, 2 * Math.PI)
+    ctx.fill()
+    ctx.stroke()
+
+    // Pont
+    ctx.beginPath()
+    ctx.moveTo(centerX - glassesSize * 0.1, centerY)
+    ctx.lineTo(centerX + glassesSize * 0.1, centerY)
+    ctx.stroke()
+
+    // Branches
+    ctx.beginPath()
+    ctx.moveTo(centerX - glassesSize * 0.5, centerY)
+    ctx.lineTo(centerX - glassesSize * 0.7, centerY - glassesSize * 0.1)
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(centerX + glassesSize * 0.5, centerY)
+    ctx.lineTo(centerX + glassesSize * 0.7, centerY - glassesSize * 0.1)
+    ctx.stroke()
+  }, [])
+
+  const drawStars = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number) => {
+    const centerX = width / 2
+    const centerY = height / 2
+    const starSize = Math.min(width, height) * 0.1
+
+    ctx.fillStyle = '#fbbf24'
+    ctx.strokeStyle = '#f59e0b'
+    ctx.lineWidth = 2
+
+    // Dessine 3 étoiles autour de la tête
+    const stars = [
+      { x: centerX - starSize * 2, y: centerY - starSize * 1.5 },
+      { x: centerX + starSize * 2, y: centerY - starSize * 1.5 },
+      { x: centerX, y: centerY + starSize * 2 }
+    ]
+
+    stars.forEach(star => {
+      drawStar(ctx, star.x, star.y, starSize)
+    })
+  }, [drawStar])
 
   useEffect(() => {
     if (!enabled) {
@@ -56,7 +138,7 @@ export function CameraView({ language, enabled, showGlasses, showStars }: Camera
         stream.getTracks().forEach(track => track.stop())
       }
     }
-  }, [enabled, language])
+  }, [enabled, language, stream])
 
   useEffect(() => {
     if (!enabled || !videoRef.current || !canvasRef.current) return
@@ -93,89 +175,8 @@ export function CameraView({ language, enabled, showGlasses, showStars }: Camera
     }
 
     drawOverlays()
-  }, [enabled, showGlasses, showStars])
+  }, [enabled, showGlasses, showStars, drawGlasses, drawStars])
 
-  const drawGlasses = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    const centerX = width / 2
-    const centerY = height / 2
-    const glassesSize = Math.min(width, height) * 0.3
-
-    ctx.strokeStyle = '#1f2937'
-    ctx.lineWidth = 4
-    ctx.fillStyle = 'rgba(31, 41, 55, 0.1)'
-
-    // Verres
-    ctx.beginPath()
-    ctx.arc(centerX - glassesSize * 0.3, centerY, glassesSize * 0.2, 0, 2 * Math.PI)
-    ctx.fill()
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.arc(centerX + glassesSize * 0.3, centerY, glassesSize * 0.2, 0, 2 * Math.PI)
-    ctx.fill()
-    ctx.stroke()
-
-    // Pont
-    ctx.beginPath()
-    ctx.moveTo(centerX - glassesSize * 0.1, centerY)
-    ctx.lineTo(centerX + glassesSize * 0.1, centerY)
-    ctx.stroke()
-
-    // Branches
-    ctx.beginPath()
-    ctx.moveTo(centerX - glassesSize * 0.5, centerY)
-    ctx.lineTo(centerX - glassesSize * 0.7, centerY - glassesSize * 0.1)
-    ctx.stroke()
-
-    ctx.beginPath()
-    ctx.moveTo(centerX + glassesSize * 0.5, centerY)
-    ctx.lineTo(centerX + glassesSize * 0.7, centerY - glassesSize * 0.1)
-    ctx.stroke()
-  }
-
-  const drawStars = (ctx: CanvasRenderingContext2D, width: number, height: number) => {
-    const centerX = width / 2
-    const centerY = height / 2
-    const starSize = Math.min(width, height) * 0.1
-
-    ctx.fillStyle = '#fbbf24'
-    ctx.strokeStyle = '#f59e0b'
-    ctx.lineWidth = 2
-
-    // Dessine 3 étoiles autour de la tête
-    const stars = [
-      { x: centerX - starSize * 2, y: centerY - starSize * 1.5 },
-      { x: centerX + starSize * 2, y: centerY - starSize * 1.5 },
-      { x: centerX, y: centerY + starSize * 2 }
-    ]
-
-    stars.forEach(star => {
-      drawStar(ctx, star.x, star.y, starSize)
-    })
-  }
-
-  const drawStar = (ctx: CanvasRenderingContext2D, x: number, y: number, size: number) => {
-    const spikes = 5
-    const outerRadius = size
-    const innerRadius = size * 0.4
-
-    ctx.beginPath()
-    for (let i = 0; i < spikes * 2; i++) {
-      const angle = (i * Math.PI) / spikes
-      const radius = i % 2 === 0 ? outerRadius : innerRadius
-      const px = x + Math.cos(angle) * radius
-      const py = y + Math.sin(angle) * radius
-      
-      if (i === 0) {
-        ctx.moveTo(px, py)
-      } else {
-        ctx.lineTo(px, py)
-      }
-    }
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
-  }
 
   if (!enabled) {
     return (
