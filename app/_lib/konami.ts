@@ -102,15 +102,22 @@ export class KonamiDetector {
 // Hook React pour utiliser le détecteur Konami
 export function useKonami(onSuccess: () => void) {
   const [detector, setDetector] = React.useState<KonamiDetector | null>(null)
+  const [isMounted, setIsMounted] = React.useState(false)
 
   React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  React.useEffect(() => {
+    if (!isMounted) return
+
     const newDetector = new KonamiDetector(onSuccess)
     setDetector(newDetector)
 
     return () => {
       newDetector.destroy()
     }
-  }, [onSuccess])
+  }, [onSuccess, isMounted])
 
   return {
     setActive: (active: boolean) => detector?.setActive(active),

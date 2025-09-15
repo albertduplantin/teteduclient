@@ -2,12 +2,10 @@
 class AudioManager {
   private audioContext: AudioContext | null = null
   private soundEnabled: boolean = true
+  private isInitialized: boolean = false
 
   constructor() {
-    // Initialise l'audio context au premier clic utilisateur
-    if (typeof window !== 'undefined') {
-      this.initializeAudioContext()
-    }
+    // Ne pas initialiser immédiatement pour éviter les problèmes d'hydration
   }
 
   private async initializeAudioContext() {
@@ -28,7 +26,15 @@ class AudioManager {
 
   // Joue un son "ta-da" simple généré programmatiquement
   async playTaDa(): Promise<void> {
-    if (!this.soundEnabled || !this.audioContext) return
+    if (!this.soundEnabled) return
+    
+    // Initialise l'audio context si nécessaire
+    if (!this.isInitialized && typeof window !== 'undefined') {
+      await this.initializeAudioContext()
+      this.isInitialized = true
+    }
+    
+    if (!this.audioContext) return
 
     try {
       // Crée un son "ta-da" simple avec des fréquences harmoniques
@@ -58,7 +64,15 @@ class AudioManager {
 
   // Joue un son de clic simple
   async playClick(): Promise<void> {
-    if (!this.soundEnabled || !this.audioContext) return
+    if (!this.soundEnabled) return
+    
+    // Initialise l'audio context si nécessaire
+    if (!this.isInitialized && typeof window !== 'undefined') {
+      await this.initializeAudioContext()
+      this.isInitialized = true
+    }
+    
+    if (!this.audioContext) return
 
     try {
       const oscillator = this.audioContext.createOscillator()

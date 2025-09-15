@@ -10,6 +10,7 @@ import { BiasCards } from './_components/BiasCards'
 import { SettingsBar } from './_components/SettingsBar'
 import { SeriousModal } from './_components/SeriousModal'
 import { PWAInstallButton } from './_components/PWAInstallButton'
+import { ClientOnly } from './_components/ClientOnly'
 import { useKonami } from './_lib/konami'
 import { useAudio } from './_lib/audio'
 import { useVibration } from './_lib/vibration'
@@ -160,14 +161,18 @@ export default function HomePage() {
       </div>
 
       {/* PWA Install Button */}
-      <PWAInstallButton language={language} />
+      <ClientOnly>
+        <PWAInstallButton language={language} />
+      </ClientOnly>
 
       {/* Serious Modal */}
-      <SeriousModal
-        language={language}
-        open={showSeriousModal}
-        onOpenChange={setShowSeriousModal}
-      />
+      <ClientOnly>
+        <SeriousModal
+          language={language}
+          open={showSeriousModal}
+          onOpenChange={setShowSeriousModal}
+        />
+      </ClientOnly>
     </div>
   )
 }
