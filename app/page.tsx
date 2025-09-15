@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
 import { Disclaimer } from './_components/Disclaimer'
 import { LanguageSwitcher } from './_components/LanguageSwitcher'
 import { CameraView } from './_components/CameraView'
@@ -9,38 +8,24 @@ import { BiasSliders } from './_components/BiasSliders'
 import { ScoreCard } from './_components/ScoreCard'
 import { BiasCards } from './_components/BiasCards'
 import { SettingsBar } from './_components/SettingsBar'
-import { SeriousModal } from './_components/SeriousModal'
-import { ClientOnly } from './_components/ClientOnly'
-import { AppWrapper } from './_components/AppWrapper'
 import { useI18n, type Language } from './_lib/i18n'
 
-// Import dynamique des composants problématiques
-const PWAInstallButton = dynamic(() => import('./_components/PWAInstallButton').then(mod => ({ default: mod.PWAInstallButton })), { ssr: false })
-const SeriousModal = dynamic(() => import('./_components/SeriousModal').then(mod => ({ default: mod.SeriousModal })), { ssr: false })
-const BiasCards = dynamic(() => import('./_components/BiasCards').then(mod => ({ default: mod.BiasCards })), { ssr: false })
-
-function HomePageContent({ 
-  soundEnabled, 
-  vibrationEnabled, 
-  setSoundEnabled, 
-  setVibrationEnabled, 
-  setShowSeriousModal 
-}: {
-  soundEnabled: boolean
-  vibrationEnabled: boolean
-  setSoundEnabled: (enabled: boolean) => void
-  setVibrationEnabled: (enabled: boolean) => void
-  setShowSeriousModal: (show: boolean) => void
-}) {
+export default function HomePage() {
   const [language, setLanguage] = useState<Language>('fr')
   const [cameraEnabled, setCameraEnabled] = useState(false)
   const [glassesEnabled, setGlassesEnabled] = useState(false)
   const [starsEnabled, setStarsEnabled] = useState(false)
+  const [soundEnabled, setSoundEnabled] = useState(true)
+  const [vibrationEnabled, setVibrationEnabled] = useState(true)
   const [showBiasCards, setShowBiasCards] = useState(false)
-  const [showSeriousModal, setShowSeriousModal] = useState(false)
   const [biases, setBiases] = useState({ halo: 50, herd: 50, lucky: 50 })
+  const [isMounted, setIsMounted] = useState(false)
 
   const t = useI18n(language)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Désactive les filtres si la caméra est désactivée
   useEffect(() => {
@@ -49,6 +34,17 @@ function HomePageContent({
       setStarsEnabled(false)
     }
   }, [cameraEnabled])
+
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
@@ -156,28 +152,6 @@ function HomePageContent({
           </p>
         </footer>
       </div>
-
-      {/* PWA Install Button */}
-      <ClientOnly>
-        <PWAInstallButton language={language} />
-      </ClientOnly>
-
-      {/* Serious Modal */}
-      <ClientOnly>
-        <SeriousModal
-          language={language}
-          open={showSeriousModal}
-          onOpenChange={setShowSeriousModal}
-        />
-      </ClientOnly>
     </div>
-  )
-}
-
-export default function HomePage() {
-  return (
-    <AppWrapper language="fr">
-      {(props) => <HomePageContent {...props} />}
-    </AppWrapper>
   )
 }
