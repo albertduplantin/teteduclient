@@ -60,47 +60,52 @@ export const i18n: Record<Language, I18nContent> = {
     score: "Score",
     outOf: "sur 20",
     absurdPhrases: [
-      "Stylo mâchouillé +3, sourire en coin –2 : verdict… époustou-flop !",
-      "Cravate mal nouée +1, regard perdu –3 : résultat… médiocrement génial !",
-      "Cheveux en bataille +2, lunettes de travers –1 : conclusion… parfaitement banal !",
-      "T-shirt froissé +1, posture décontractée –2 : verdict… étonnamment prévisible !",
-      "Chaussettes dépareillées +2, air mystérieux –1 : résultat… brillamment terne !",
-      "Café renversé +1, sourire gêné –2 : conclusion… remarquablement ordinaire !",
-      "Costard 3 pièces +5, chaussettes Batman –4 : évaluation… super-héros raté !",
-      "Barbe de 3 jours +2, cravate Hermès –3 : verdict… luxueusement négligé !",
-      "Lunettes de soleil +1, costume de plage –5 : résultat… professionnellement décalé !",
-      "Chapeau melon +3, baskets Nike –2 : conclusion… élégamment sportif !",
-      "Montre en toc +1, attitude de boss –4 : verdict… faussement important !",
-      "Bretelles colorées +2, chemise hawaïenne –3 : résultat… tropicalement formel !",
-      "Bague à l'auriculaire +1, air de mafioso –5 : conclusion… dangereusement kitsch !",
-      "Pochette assortie +2, chaussures croco –3 : verdict… reptilien chic !",
-      "Foulard en soie +3, jean troué –2 : résultat… déchiré élégant !",
-      "Boutons de manchette +1, t-shirt 'I ❤️ Paris' –4 : conclusion… parisien kitsch !",
-      "Cigare non allumé +2, costume Armani –3 : verdict… fumeur d'eau !",
-      "Boucle d'oreille +1, costume 3 pièces –2 : résultat… formellement rebelle !",
-      "Casquette à l'envers +3, costume cravate –4 : conclusion… hip-hop corporate !",
-      "Écharpe en cachemire +2, pantalon de jogging –3 : verdict… sportivement luxueux !"
+      "Tête de vainqueur, style de perdant : 12/20 - La déception totale !",
+      "Barbe de hipster, âme de boomer : 8/20 - Génération confuse !",
+      "Costard 5000€, chaussettes Batman : 15/20 - Luxe et geek, combo gagnant !",
+      "Sourire de commercial, regard de serial killer : 6/20 - Vendeur de cauchemars !",
+      "Cheveux parfaits, personnalité nulle : 4/20 - Belle coquille vide !",
+      "Lunettes de vue, lunettes de soleil : 7/20 - Double vision, zéro style !",
+      "Montre Rolex, montre Apple : 9/20 - Montre-moi ton vrai niveau !",
+      "Cravate Hermès, slip H&M : 11/20 - Luxe visible, confort caché !",
+      "Chaussures cuir, chaussettes trouées : 5/20 - Élégance de façade !",
+      "Parfum Chanel, haleine de chat : 3/20 - Parfumé mais puant !",
+      "Coiffure 2024, mentalité 1990 : 8/20 - Moderne mais dépassé !",
+      "T-shirt vintage, âme de vieux : 13/20 - Rétro mais authentique !",
+      "Bague en or, doigt en plastique : 6/20 - Bijou vrai, doigt faux !",
+      "Écharpe en cachemire, nez qui coule : 7/20 - Chic mais malade !",
+      "Casquette à l'envers, cerveau à l'endroit : 16/20 - Rebelle mais intelligent !",
+      "Costume 3 pièces, âme de 2 pièces : 10/20 - Habillé mais simple !",
+      "Lunettes de soleil la nuit : 2/20 - Mode aveugle !",
+      "Chaussettes dépareillées, chaussures assorties : 14/20 - Désordonné mais cohérent !",
+      "Barbe de 3 jours, mentalité de 30 ans : 12/20 - Mature et négligé !",
+      "T-shirt 'I ❤️ Paris', n'a jamais été à Paris : 1/20 - Faux parisien !",
+      "Montre connectée, cerveau déconnecté : 5/20 - Techno mais bête !",
+      "Costard noir, âme colorée : 17/20 - Élégant et original !",
+      "Chaussures de sport, costume de ville : 9/20 - Sportif mais décalé !",
+      "Lunettes de vue, vision d'avenir : 18/20 - Prévisionnaire !",
+      "Cravate mal nouée, vie bien nouée : 15/20 - Désordonné mais heureux !"
     ],
     biasCards: {
       halo: {
         title: "Effet Halo",
-        description: "Tendance à généraliser une première impression positive ou négative à tous les aspects d'une personne."
+        description: "On juge quelqu'un sur son apparence : beau = intelligent, moche = bête. C'est con mais c'est humain !"
       },
       confirmation: {
-        title: "Biais de confirmation",
-        description: "Recherche et interprétation d'informations qui confirment nos préjugés existants."
+        title: "Conformisme", 
+        description: "On suit le troupeau : si tout le monde dit que c'est nul, on dit pareil. Mouton mode activé !"
       },
       beauty: {
-        title: "Beauté perçue",
-        description: "Association automatique entre beauté physique et compétences, intelligence ou moralité."
+        title: "Superstition",
+        description: "On croit que porter du vert porte bonheur ou que les lunettes de soleil la nuit c'est stylé. Magie !"
       },
       stereotypes: {
         title: "Stéréotypes",
-        description: "Croyances simplifiées et généralisées sur les caractéristiques d'un groupe social."
+        description: "On met tout le monde dans des cases : les blonds sont bêtes, les roux ont du caractère. Cliché !"
       },
       authority: {
         title: "Biais d'autorité",
-        description: "Tendance à accorder plus de crédit aux personnes perçues comme ayant de l'autorité."
+        description: "Si quelqu'un a l'air important, on le croit plus. Même s'il raconte n'importe quoi !"
       }
     },
     settings: {

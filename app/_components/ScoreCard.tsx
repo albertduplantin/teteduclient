@@ -14,9 +14,11 @@ interface ScoreCardProps {
   biases: { halo: number; herd: number; lucky: number }
   soundEnabled: boolean
   vibrationEnabled: boolean
+  showBiasCards: boolean
+  setShowBiasCards: (show: boolean) => void
 }
 
-export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: ScoreCardProps) {
+export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled, showBiasCards, setShowBiasCards }: ScoreCardProps) {
   const t = useI18n(language)
   const { playTaDa } = useAudio()
   const { vibrateScore } = useVibration()
@@ -118,17 +120,20 @@ export function ScoreCard({ language, biases, soundEnabled, vibrationEnabled }: 
               >
                 {language === 'fr' ? 'Re-noter' : 'Re-score'}
               </Button>
-              <Button 
-                onClick={() => {/* TODO: Afficher les biais */}}
-                variant="secondary"
-                className="flex-1"
-                aria-label={language === 'fr' 
-                  ? 'Afficher les cartes de biais cognitifs'
-                  : 'Show cognitive bias cards'
-                }
-              >
-                {t.showBiases}
-              </Button>
+                  <Button
+                    onClick={() => setShowBiasCards(!showBiasCards)}
+                    variant="secondary"
+                    className="flex-1"
+                    aria-label={language === 'fr'
+                      ? 'Afficher les cartes de biais cognitifs'
+                      : 'Show cognitive bias cards'
+                    }
+                  >
+                    {showBiasCards 
+                      ? (language === 'fr' ? 'Masquer les biais' : 'Hide biases')
+                      : t.showBiases
+                    }
+                  </Button>
             </div>
           </div>
         )}

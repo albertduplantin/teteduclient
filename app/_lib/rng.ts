@@ -33,8 +33,8 @@ export function computeScore(biases: {
   
   const rng = new RNG(seed)
   
-  // Génère un score entre 0 et 20
-  const score = rng.nextInt(0, 20)
+  // Génère un score entre 1 et 20 (plus réaliste)
+  const score = rng.nextInt(1, 20)
   
   // Utilise les phrases fournies ou des phrases par défaut
   const defaultPhrases = [

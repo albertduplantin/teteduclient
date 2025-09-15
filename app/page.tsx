@@ -109,6 +109,8 @@ export default function HomePage() {
             biases={biases}
             soundEnabled={soundEnabled}
             vibrationEnabled={vibrationEnabled}
+            showBiasCards={showBiasCards}
+            setShowBiasCards={setShowBiasCards}
           />
 
           {/* Bias Sliders - Touch-friendly */}
