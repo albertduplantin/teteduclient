@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const ClientOnlyApp = dynamic(() => import('./_components/ClientOnlyApp').then(mod => ({ default: mod.ClientOnlyApp })), {
+const SimpleApp = dynamic(() => import('./_components/SimpleApp').then(mod => ({ default: mod.SimpleApp })), {
   ssr: false,
   loading: () => (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
@@ -13,5 +13,5 @@ const ClientOnlyApp = dynamic(() => import('./_components/ClientOnlyApp').then(m
 })
 
 export default function HomePage() {
-  return <ClientOnlyApp />
+  return <SimpleApp />
 }
