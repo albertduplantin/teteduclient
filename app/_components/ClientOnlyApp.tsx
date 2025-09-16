@@ -27,8 +27,6 @@ export function ClientOnlyApp() {
   const [showBiasCards, setShowBiasCards] = useState(false)
   const [showSeriousModal, setShowSeriousModal] = useState(false)
   const [biases, setBiases] = useState({ halo: 50, herd: 50, lucky: 50 })
-  const [isMounted, setIsMounted] = useState(false)
-
   const t = useI18n(language)
   const { setSoundEnabled: setAudioEnabled } = useAudio()
   const { setVibrationEnabled: setVibEnabled } = useVibration()
@@ -37,10 +35,6 @@ export function ClientOnlyApp() {
   useKonami(() => {
     setShowSeriousModal(true)
   })
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
   // Synchronise les paramètres audio/vibration
   useEffect(() => {
@@ -58,17 +52,6 @@ export function ClientOnlyApp() {
       setStarsEnabled(false)
     }
   }, [cameraEnabled])
-
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement...</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
